@@ -26,9 +26,7 @@ namespace MyMediaCollection.ViewModels
         private string selectedItemType;
         [ObservableProperty]
         private string selectedLocation;
-
         [ObservableProperty]
-        [NotifyCanExecuteChangedFor(nameof(SaveCommand))]
         private bool isDirty;
         private int _selectedItemId = -1;
         protected INavigationService _navigationService;
@@ -81,7 +79,6 @@ namespace MyMediaCollection.ViewModels
             Mediums = new ObservableCollection<string>();
         }
 
-        [RelayCommand(CanExecute = nameof(CanSaveItem))]
         private void Save()
         {
             MediaItem item;
@@ -109,13 +106,23 @@ namespace MyMediaCollection.ViewModels
 
                 _dataService.AddItem(item);
             }
-
-            _navigationService.GoBack();
         }
 
-        private bool CanSaveItem()
+        public void SaveItemAndContinue()
         {
-            return IsDirty;
+            Save();
+            _itemId = 0;
+            ItemName = string.Empty;
+            SelectedMedium = null;
+            SelectedLocation = null;
+            SelectedItemType = null;
+            IsDirty = false;
+        }
+
+        public void SaveItemAndReturn()
+        {
+            Save();
+            _navigationService.GoBack();
         }
 
         partial void OnItemNameChanged(string value)
