@@ -1,4 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
 using MyMediaCollection.ViewModels;
@@ -15,6 +16,7 @@ namespace MyMediaCollection.Views
             ViewModel = App.HostContainer.Services.GetService<ItemDetailsViewModel>();
 
             this.InitializeComponent();
+            Loaded += ItemDetailsPage_Loaded;
 
             Windows.Storage.ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
 
@@ -29,6 +31,15 @@ namespace MyMediaCollection.Views
 
                 // Save the teaching tip setting
                 localSettings.Values[nameof(SavingTip)] = "true";
+            }
+        }
+
+        private void ItemDetailsPage_Loaded(object sender, RoutedEventArgs e)
+        {
+            var mainWindow = (Application.Current as App)?.Window as MainWindow;
+            if (mainWindow != null)
+            {
+                mainWindow.SetPageTitle("Item Details");
             }
         }
 

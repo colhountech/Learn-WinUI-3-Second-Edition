@@ -51,6 +51,8 @@ namespace MyMediaCollection
 
         private Window m_window;
 
+        internal Window Window => m_window;
+
         private async Task RegisterComponentsAsync(Frame rootFrame)
         {
             var navigationService = new NavigationService(rootFrame);
