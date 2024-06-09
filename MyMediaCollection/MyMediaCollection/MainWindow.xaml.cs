@@ -1,5 +1,4 @@
 using Microsoft.UI.Xaml;
-using MyMediaCollection.ViewModels;
 
 namespace MyMediaCollection
 {
@@ -12,7 +11,5 @@ namespace MyMediaCollection
         {
             this.InitializeComponent();
         }
-
-        public MainViewModel ViewModel => App.ViewModel;
     }
 }
