@@ -1,9 +1,9 @@
 {
   "profiles": {
-    "WinUI3.SimpleSample (Package)": {
+    "MyMediaCollection (Package)": {
       "commandName": "MsixPackage"
     },
-    "WinUI3.SimpleSample (Unpackaged)": {
+    "MyMediaCollection (Unpackaged)": {
       "commandName": "Project"
     }
   }
