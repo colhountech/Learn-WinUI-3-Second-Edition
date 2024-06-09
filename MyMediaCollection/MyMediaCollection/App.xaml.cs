@@ -33,11 +33,11 @@ namespace MyMediaCollection
         /// Invoked when the application is launched.
         /// </summary>
         /// <param name="args">Details about the launch request and process.</param>
-        protected override void OnLaunched(LaunchActivatedEventArgs args)
+        protected override async void OnLaunched(LaunchActivatedEventArgs args)
         {
             m_window = new MainWindow();
             var rootFrame = new Frame();
-            RegisterComponents(rootFrame);
+            await RegisterComponentsAsync(rootFrame);
             rootFrame.NavigationFailed += RootFrame_NavigationFailed;
             rootFrame.Navigate(typeof(MainPage), args);
             m_window.Content = rootFrame;
@@ -51,17 +51,19 @@ namespace MyMediaCollection
 
         private Window m_window;
 
-        private void RegisterComponents(Frame rootFrame)
+        private async Task RegisterComponentsAsync(Frame rootFrame)
         {
             var navigationService = new NavigationService(rootFrame);
             navigationService.Configure(nameof(MainPage), typeof(MainPage));
             navigationService.Configure(nameof(ItemDetailsPage), typeof(ItemDetailsPage));
+            var dataService = new SqliteDataService();
+            await dataService.InitializeDataAsync();
 
             HostContainer = Host.CreateDefaultBuilder()
                 .ConfigureServices(services =>
                 {
                     services.AddSingleton<INavigationService>(navigationService);
-                    services.AddSingleton<IDataService, DataService>();
+                    services.AddSingleton<IDataService>(dataService);
                     services.AddTransient<MainViewModel>();
                     services.AddTransient<ItemDetailsViewModel>();
                 }).Build();
